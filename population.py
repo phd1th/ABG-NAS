@@ -41,7 +41,7 @@ class IndividualGNN(object):
         num_layers = np.random.randint(self.args.min_layers, self.args.max_layers + 1)
         order_type = np.random.choice([1, 2], size=num_layers).tolist()
 
-        # Step 2: Initialize a list to store the properties of the units
+
         inchannels = [None for _ in range(num_layers)]
         outchannels = [None for _ in range(num_layers)]
         prop_type = [None for _ in range(num_layers)]
@@ -49,10 +49,10 @@ class IndividualGNN(object):
         heads_num = [None for _ in range(num_layers)]
         act_type = [None for _ in range(num_layers)]
 
-        # Step 3: Create P and T based on the order_type and update their properties in encode_layers
+      
         encode_layers = []
         for i, layer_type in enumerate(order_type):
-            if layer_type == 1:  # P 层
+            if layer_type == 1: 
                 inchannels[i] = self.args.hid_dim
                 outchannels[i] = self.args.hid_dim
 #                 selected_prop_type = np.random.choice([1, 2, 3, 4])
@@ -72,7 +72,7 @@ class IndividualGNN(object):
                     heads_num[i] = None
                     encode_layers.append(SAGEFeaturePropagation(self.args.hid_dim, self.args.hid_dim, aggregator=selected_agg_type))
 
-            elif layer_type == 2:  # T 层
+            elif layer_type == 2:  
                 selected_act_type = np.random.choice(list(act_type_dict.keys()))
                 act_type[i] = selected_act_type
                 encode_layers.append(MLP(self.args.hid_dim, self.args.hid_dim, self.args.mdrop, act_type=selected_act_type))
