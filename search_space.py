@@ -1,14 +1,3 @@
-"""
-search space :
-combine P,T
-P:
-type =1 : Graph
-type =2 : SplineFeaturePropagation
-type =3 : GraphSAGE
-
-T :
-activations = ["linear", "elu", "sigmoid", "tanh", "relu", "relu6", "softplus", "leaky_relu"]
-"""     
 import sys
 import time
 import torch
@@ -31,7 +20,6 @@ from skopt.utils import use_named_args
 from optuna.samplers import TPESampler
 from optuna.pruners import HyperbandPruner
 
-# type =1 : Graph
 
 class Graph(nn.Module):
     def __init__(self, adj,aggregator=-1,heads=-1):
@@ -44,7 +32,7 @@ class Graph(nn.Module):
         x = self.adj.matmul(x)
         return x
     
-#type =2 : SplineFeaturePropagation
+
 class SplineFeaturePropagation(nn.Module):
     def __init__(self, in_channels, out_channels, dim, kernel_size, edge_index, edge_attr,aggregator=-1,heads=-1):
         super(SplineFeaturePropagation, self).__init__()
@@ -69,28 +57,13 @@ class SplineFeaturePropagation(nn.Module):
         for i in range(row.size(0)):
             out[row[i]] += B[i] * x[col[i]]
         return out
-    
-    # #####corafull
-    # def forward(self, x, edge_index, edge_attr):
-    #     if edge_attr is None and self.edge_attr is None:
-    #          edge_attr = torch.ones(edge_index.size(1)).to(x.device)
-    #     elif edge_attr is None:
-    #         edge_attr = self.edge_attr   
-    #     row, col = edge_index
-    #     B = self.compute_b_spline_kernel(edge_attr)
-    #     out = torch.zeros_like(x)
-    #     for i in range(row.size(0)):
-    #         out[row[i]] += B[i] * x[col[i]]
-    #     return out
+
     
     def compute_b_spline_kernel(self, edge_attr):
         return torch.exp(-edge_attr)
     
  
 
-#  type =3 : GraphSAGE 
-# aggregator =[mean, max, sum]
-#op =SAGEFeaturePropagation(in_channels, out_channels, aggregator)
 class SAGEFeaturePropagation(nn.Module):
     def __init__(self, in_channels, out_channels, aggregator=1,heads=-1):
         super(SAGEFeaturePropagation, self).__init__()
@@ -126,65 +99,7 @@ class SAGEFeaturePropagation(nn.Module):
         out = torch.matmul(out, self.weight)
         return out
 
-# type =4 : GAT , one head/ multi
-#op = GATConvLayer(in_channels, hidden_channels, heads, concat, dropout,aggregator)
 
-class GATFeaturePropagation(nn.Module):
-    def __init__(self, in_channels, out_channels, heads=1, concat=True,aggregator=-1):
-        super(GATFeaturePropagation, self).__init__()
-        self.in_channels = in_channels
-        self.out_channels = out_channels
-        self.aggregator = aggregator 
-        self.heads = heads
-        self.concat = concat
-        
-        # Define the parameters for multiple heads
-        self.weight = nn.Parameter(torch.Tensor(in_channels, heads * out_channels))
-        self.attn_l = nn.Parameter(torch.Tensor(heads, out_channels))
-        self.attn_r = nn.Parameter(torch.Tensor(heads, out_channels))
-        
-        self.reset_parameters()
-    
-    def reset_parameters(self):
-        nn.init.xavier_uniform_(self.weight)
-        nn.init.xavier_uniform_(self.attn_l)
-        nn.init.xavier_uniform_(self.attn_r)
-    
-    def forward(self, x, edge_index):
-        # Apply the linear transformation and reshape for multiple heads
-        x = torch.matmul(x, self.weight).view(-1, self.heads, self.out_channels)
-        
-        row, col = edge_index
-        alpha_l = (x[row] * self.attn_l).sum(dim=-1)
-        alpha_r = (x[col] * self.attn_r).sum(dim=-1)
-        alpha = F.leaky_relu(alpha_l + alpha_r)
-        alpha = F.softmax(alpha, dim=1)
-        
-        # Initialize output tensor
-        out = torch.zeros_like(x)
-        
-        # Aggregate features for each node
-        for i in range(x.size(0)):
-            out[i] = torch.sum(alpha[i].unsqueeze(-1) * x[col[i]], dim=0)
-        
-        if self.concat:
-            return out.view(-1, self.heads * self.out_channels)
-        else:
-            return out.mean(dim=1)
-        
-"""
-
-activations = ["linear", "elu", "sigmoid", "tanh", "relu", "relu6", "softplus", "leaky_relu"]
-act_type=[1,2,3,4,5,6,7,8]
-1: linear
-2: ELU
-3: Sigmoid
-4: Tanh
-5: ReLU
-6: ReLU6
-7: Softplus
-8: Leaky ReLU
-"""
 
 class MLP(nn.Module):
     def __init__(self, nfeat, nclass, dropout, act_type="relu", last=False):
