@@ -1,0 +1,15 @@
+
+search_space:
+  propagation: [GCN, GraphSAGE, SplineCNN]
+  transformation: [ReLU, Sigmoid, Tanh]
+
+genetic_algorithm:
+  population_size: 50
+  generations: 30
+  crossover_rate: 0.8
+  mutation_rate: 0.1
+
+hyperparameter_optimization:
+  interval: 5
+  method: TPE
+  acquisition_function: EI
