@@ -44,8 +44,33 @@ ABG-NAS is effective for tasks like node classification, link prediction, and su
 
 ## Installation
 
-### Step 1: Clone the Repository
-```bash
-git clone https://github.com/sserranw/ABG-NAS.git
-cd ABG-NAS
+To install and run ABG-NAS, follow these steps:
 
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sserranw/ABG-NAS.git
+   cd ABG-NAS
+   ```
+
+2. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Set up your environment (optional):
+   ```bash
+   conda create -n abg-nas python=3.8
+   conda activate abg-nas
+   ```
+## Datasets
+ABG-NAS has been tested on the following datasets:
+- **Cora**
+- **PubMed**
+- **CoraFull**
+- **Citeseer**
+  
+## Contributing
+We welcome contributions to ABG-NAS! If you would like to contribute, please fork the repository and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+ABG-NAS is released under the MIT License. See the `LICENSE` file for more details.
