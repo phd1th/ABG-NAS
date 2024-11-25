@@ -48,3 +48,9 @@ ABG-NAS is effective for tasks like node classification, link prediction, and su
 ```bash
 git clone https://github.com/sserranw/ABG-NAS.git
 cd ABG-NAS
+
+###  Step 2: Install Dependencies
+pip install -r requirements.txt
+### Step 3: Set Up a Virtual Environment
+conda create -n abg-nas python=3.8
+conda activate abg-nas
