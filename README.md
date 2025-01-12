@@ -1,5 +1,5 @@
 # ABG-NAS
-Code repository for ABG-NAS framework from ICDE 2025 paper
+Code repository for ABG-NAS framework 
 # ABG-NAS: Adaptive Bayesian Genetic Neural Architecture Search
 
 ABG-NAS (Adaptive Bayesian Genetic Neural Architecture Search) is an innovative framework designed to optimize Graph Neural Networks (GNNs) through efficient architecture search and dynamic hyperparameter tuning. By leveraging advanced genetic algorithms and Bayesian optimization, ABG-NAS achieves exceptional performance across diverse graph datasets.
