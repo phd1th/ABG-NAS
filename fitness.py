@@ -21,7 +21,7 @@ from sklearn.metrics import f1_score, confusion_matrix
 import optuna
 
 """
-1. ModelOp: global structure build
+1. ModelOp
 2. decode 
 3. train& valid & test
 """     
@@ -29,7 +29,7 @@ class ModelOp(nn.Module):
     
     def __init__(self, individual, adj, feat_dim, hid_dim, num_classes, fdropout, mdropout, dropout, dim, kernel_size, edge_index, edge_attr, device):
         super(ModelOp, self).__init__()
-        self.individual = individual  # 存储 individual
+        self.individual = individual 
         self._ops = nn.ModuleList()
         self._numP = 1
         self._arch = individual['order_type']
