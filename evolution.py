@@ -51,7 +51,7 @@ def setup_args():
     parser.add_argument('--prob_crossover', type=float, default=0.8, help='crossover probability')
     parser.add_argument('--prob_mutation', type=float, default=0.2, help='mutation probability')
     parser.add_argument('--mutation_types_prob', type=list, default=[0.25, 0.25, 0.25, 0.25], help='the probability of different mutation operation')
-    parser.add_argument('--mutation_prob_list', type=list, default=[0.25, 0.25, 0.25, 0.25], help='probability list for mutation types')  # 新增参数
+    parser.add_argument('--mutation_prob_list', type=list, default=[0.25, 0.25, 0.25, 0.25], help='probability list for mutation types')  
     parser.add_argument('--max_mutations', type=int, default=5, help='maximum number of mutations') 
 
 
@@ -67,7 +67,7 @@ def get_data_and_population(args):
 
     # Load and preprocess data
     # cora /pubmed  
-    adj, features, labels, idx_train, idx_val, idx_test, edge_index, edge_attr = load_data(path="/home/sixuan/code/my_code/data", dataset="cora")
+    adj, features, labels, idx_train, idx_val, idx_test, edge_index, edge_attr = load_data(path="your_datapath", dataset="cora")
     # corafull
     # adj, features, labels, idx_train, idx_val, idx_test, edge_index, edge_attr = load_data()
     # adj = adj.float().to(device)
