@@ -19,10 +19,10 @@ from torch_geometric.transforms import NormalizeFeatures
 from torch_geometric.utils import to_scipy_sparse_matrix
 from sklearn.model_selection import train_test_split
 """
-    Load data for the given dataset name using a 60-20-20 split for train, validation, and test sets.
+    Load data for the given dataset for train, validation, and test sets.
 """
 # cora/pubmed
-def load_data(path="/home/sixuan/code/my_code/0-git/data", dataset="cora"):
+def load_data(path="your_datapath/data", dataset="cora"):
  
     print("\n[STEP 1]: Loading {} dataset.".format(dataset))
 
@@ -90,7 +90,7 @@ def edge_index_to_adj(edge_index, num_nodes):
 
 
 def load_data(dataset="citeseer"):
-    dataset = torch.load('/home/sixuan/code/my_code/0-git/data/Citeseer/dataset.pt')
+    dataset = torch.load('your_datapath')
     data = dataset[0]
     features = data.x
     labels = data.y
@@ -126,7 +126,7 @@ def load_data(dataset="citeseer"):
 #corafull
 def load_data():
     # dataset = CoraFull(root='/tmp/CoraFull', transform=NormalizeFeatures())
-    dataset = CoraFull(root='/home/sixuan/code/my_code/0-git/data/CoraFull', transform=NormalizeFeatures())
+    dataset = CoraFull(root='your_datapath', transform=NormalizeFeatures())
     data = dataset[0]
     
     adj = to_scipy_sparse_matrix(data.edge_index)
